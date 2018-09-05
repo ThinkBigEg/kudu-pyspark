@@ -1,0 +1,39 @@
+version: "2"
+
+services:
+  kudu-master:
+    container_name: kudu-master
+    image: kudu-python
+    ports:
+      - 8051:8051
+    command: master
+  kudu-tserver-1:
+    container_name: kudu-tserver-1
+    image: kudu-python
+    environment:
+      - KUDU_MASTER=kudu-master
+    ports:
+      - 8052:8050
+    command: tserver
+  kudu-tserver-2:
+    container_name: kudu-tserver-2
+    image: kudu-python
+    environment:
+      - KUDU_MASTER=kudu-master
+    ports:
+      - 8053:8050
+    command: tserver
+  kudu-tserver-3:
+    container_name: kudu-tserver-3
+    image: kudu-python
+    environment:
+      - KUDU_MASTER=kudu-master
+    ports:
+      - 8054:8050
+    command: tserver
+  kudu-client:
+    container_name: kudu-client
+    image: kudu-python
+    command: /bin/bash
+    ports:
+      - 7777:7777
