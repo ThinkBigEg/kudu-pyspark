@@ -21,7 +21,7 @@ services:
     environment:
       - KUDU_MASTER=kudu-master
     ports:
-      - 8053:8050
+      - 8055:8050
     command: tserver
   kudu-tserver-3:
     container_name: kudu-tserver-3
@@ -29,7 +29,7 @@ services:
     environment:
       - KUDU_MASTER=kudu-master
     ports:
-      - 8054:8050
+      - 8056:8050
     command: tserver
   kudu-client:
     container_name: kudu-client
