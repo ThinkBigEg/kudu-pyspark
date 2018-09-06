@@ -36,6 +36,13 @@ Kudu is a columnar storage manager developed for the Apache Hadoop platform. Kud
  ```sh
  docker-compose up -d
  ```
+ Now you can open the WebUI of the master and the tservers
+ | Component               | Port                                              |
+| ----------------------- |-------------------------------------------------- |
+| Master                  | [http://dockerhost:8051](http://dockerhost:8051)  |
+| TabletServer  1           | [http://dockerhost:8052](http://dockerhost:8052)  |
+| TabletServer  2          | [http://dockerhost:8055](http://dockerhost:8055)  |
+| TabletServer  3          | [http://dockerhost:8056](http://dockerhost:8056)  |
  ### Open the kudu-client container
  ```sh
  docker-compose run -p 7777:7777 bash
