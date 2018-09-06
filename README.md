@@ -20,7 +20,7 @@ Kudu is a columnar storage manager developed for the Apache Hadoop platform. Kud
  ## Containers built in docker-compose:
   - 1 Kudu Master
   - 3 Kudu Tablet servers
-  - Kudu Client to open jupyter notebook to connect to the kudu cluster
+  - Kudu Client to open jupyter notebook and connect to the kudu master
   
  ## Tutorial 
  ### Clone the repository
@@ -109,3 +109,4 @@ scanner.add_predicate(table['ts_val'] == datetime(2017, 1, 1))
 # Note: This doesn't scale for large scans
 result = scanner.open().read_all_tuples()
  ```
+ 
