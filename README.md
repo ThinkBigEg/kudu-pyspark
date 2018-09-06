@@ -44,7 +44,7 @@ Kudu is a columnar storage manager developed for the Apache Hadoop platform. Kud
  ```sh
  ./spark/bin/pyspark --packages  org.apache.kudu:kudu-spark2_2.11:1.4.0
  ```
- Open on your browser (0.0.0.0:7777) and enter the token appeared in the output of the command
+ Open on your browser (http://0.0.0.0:7777) and enter the token appeared in the output of the command
  ```bash
      Copy/paste this URL into your browser when you connect for the first time,
     to login with a token:
