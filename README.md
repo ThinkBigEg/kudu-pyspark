@@ -132,3 +132,7 @@ print(result)
  ```python
  kuduDF.write.format('org.apache.kudu.spark.kudu').option('kudu.master',"<Host of kudu-master>:7051").option('kudu.table',"python-example")
  ```
+ 
+ ##References:
+ https://github.com/big-data-europe/docker-spark/tree/master/base
+ https://github.com/kunickiaj/kudu-docker
