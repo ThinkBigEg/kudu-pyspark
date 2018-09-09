@@ -49,7 +49,7 @@ Kudu is a columnar storage manager developed for the Apache Hadoop platform. Kud
 
  ### Open the kudu-client container
  ```sh
- docker-compose run -p 7777:7777 bash
+ docker-compose run -p 7777:7777 kudu-client bash
  ```
  ### Open jupyter notebook
  ```sh
@@ -61,7 +61,8 @@ Kudu is a columnar storage manager developed for the Apache Hadoop platform. Kud
     to login with a token:
         http://(16fba75ea1ef or 127.0.0.1):7777/?token=592c2d27c4c59ee85acde071c1b33c7e377a3bf979fc9121
  ```
- Open a new notebook and enter the following code 
+ Open a new notebook and try the following code if you want to use only python for kudu but if you want to use pyspark see below
+ - Run ``` docker inspect kudu-master | grep "IPAddress" ``` in a separate terminal and copy the ipaddress and replace it with ``` <Host of kudu-master>```
  ```python
  
 
@@ -70,7 +71,7 @@ from kudu.client import Partitioning
 from datetime import datetime
 
 # Connect to Kudu master server
-client = kudu.connect(host='kudu.master', port=7051)
+client = kudu.connect(host='<Host of kudu-master>', port=7051)
 
 # Define a schema for a new table
 builder = kudu.schema_builder()
@@ -119,5 +120,15 @@ scanner.add_predicate(table['ts_val'] == datetime(2017, 1, 1))
 # Open Scanner and read all tuples
 # Note: This doesn't scale for large scans
 result = scanner.open().read_all_tuples()
+print(result)
+ ```
+ ## Using Pyspark
+ ### To read from table as dataframe
+ ```python
+ kuduDF = spark.read.format('org.apache.kudu.spark.kudu').option('kudu.master',"192.168.64.3:7051").option('kudu.table',"python-example").load()
  ```
  
+ ### To write to table from dataframe
+ ```python
+ kuduDF.write.format('org.apache.kudu.spark.kudu').option('kudu.master',"192.168.64.3:7051").option('kudu.table',"python-example")
+ ```
