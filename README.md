@@ -61,7 +61,7 @@ Kudu is a columnar storage manager developed for the Apache Hadoop platform. Kud
     to login with a token:
         http://(16fba75ea1ef or 127.0.0.1):7777/?token=592c2d27c4c59ee85acde071c1b33c7e377a3bf979fc9121
  ```
- Open a new notebook and try the following code if you want to use only python for kudu but if you want to use pyspark see below
+ Open a new notebook and try the following code if you want to use only python for kudu **but if you want to use pyspark see below**
  - Run ``` docker inspect kudu-master | grep "IPAddress" ``` in a separate terminal and copy the ipaddress and replace it with ``` <Host of kudu-master>```
  ```python
  
