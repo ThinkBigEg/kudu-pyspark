@@ -125,10 +125,10 @@ print(result)
  ## Using Pyspark
  ### To read from table as dataframe
  ```python
- kuduDF = spark.read.format('org.apache.kudu.spark.kudu').option('kudu.master',"192.168.64.3:7051").option('kudu.table',"python-example").load()
+ kuduDF = spark.read.format('org.apache.kudu.spark.kudu').option('kudu.master',"<Host of kudu-master>:7051").option('kudu.table',"python-example").load()
  ```
  
  ### To write to table from dataframe
  ```python
- kuduDF.write.format('org.apache.kudu.spark.kudu').option('kudu.master',"192.168.64.3:7051").option('kudu.table',"python-example")
+ kuduDF.write.format('org.apache.kudu.spark.kudu').option('kudu.master',"<Host of kudu-master>:7051").option('kudu.table',"python-example")
  ```
