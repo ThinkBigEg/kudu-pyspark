@@ -136,3 +136,5 @@ print(result)
  ## References:
  - https://github.com/big-data-europe/docker-spark/tree/master/base
  - https://github.com/kunickiaj/kudu-docker
+ - http://kudu.apache.org/
+ - https://community.cloudera.com/t5/Advanced-Analytics-Apache-Spark/How-do-you-connect-to-Kudu-via-PySpark/m-p/66765
