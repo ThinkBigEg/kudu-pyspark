@@ -10,6 +10,8 @@ services:
   kudu-tserver-1:
     container_name: kudu-tserver-1
     image: kudu-python
+    depends_on:
+      - kudu-master
     environment:
       - KUDU_MASTER=kudu-master
     ports:
@@ -18,6 +20,8 @@ services:
   kudu-tserver-2:
     container_name: kudu-tserver-2
     image: kudu-python
+    depends_on:
+      - kudu-master
     environment:
       - KUDU_MASTER=kudu-master
     ports:
@@ -26,6 +30,8 @@ services:
   kudu-tserver-3:
     container_name: kudu-tserver-3
     image: kudu-python
+    depends_on:
+      - kudu-master
     environment:
       - KUDU_MASTER=kudu-master
     ports:
