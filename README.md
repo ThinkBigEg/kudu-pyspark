@@ -71,7 +71,7 @@ from kudu.client import Partitioning
 from datetime import datetime
 
 # Connect to Kudu master server
-client = kudu.connect(host='<Host of kudu-master>', port=7051)
+client = kudu.connect(host='<Host of kudu-master>', port=7051) # in our case kudu-master if you havent changed anything
 
 # Define a schema for a new table
 builder = kudu.schema_builder()
