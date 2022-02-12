@@ -1,3 +1,3 @@
 FROM base-kudu
 
-RUN /bin/bash
+CMD bash
