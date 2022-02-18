@@ -46,13 +46,13 @@ services:
   kudu-client:
     container_name: kudu-client
     mem_limit: 1024M
-    mem_reservation: 128M
+    mem_reservation: 256M
     image: base-kudu
     ports:
       - 7777:7777
   namenode:
     image: namenode
-    mem_limit: 512m
+    mem_limit: 1024m
     mem_reservation: 128M
     container_name: namenode
     ports:
@@ -66,7 +66,7 @@ services:
       - ./hadoop.env
   datanode:
     image: datanode
-    mem_limit: 512m
+    mem_limit: 1024m
     mem_reservation: 128M
     container_name: datanode
     restart: always
@@ -78,7 +78,7 @@ services:
       - ./hadoop.env
   resourcemanager:
     image: resourcemanager
-    mem_limit: 512m
+    mem_limit: 1024m
     mem_reservation: 128M
     container_name: resourcemanager
     restart: always
@@ -88,7 +88,7 @@ services:
       - ./hadoop.env
   nodemanager1:
     image: nodemanager
-    mem_limit: 512m
+    mem_limit: 1024m
     mem_reservation: 128M
     container_name: nodemanager
     restart: always
@@ -98,7 +98,7 @@ services:
       - ./hadoop.env
   historyserver:
     image: historyserver
-    mem_limit: 512m
+    mem_limit: 1024m
     mem_reservation: 128M
     container_name: historyserver
     restart: always
