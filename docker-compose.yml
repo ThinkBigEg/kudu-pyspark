@@ -6,8 +6,6 @@ services:
     mem_limit: 512m
     mem_reservation: 128M
     image: kudu-master
-    depends_on:
-      - hadoop
     ports:
       - 8051:8051
   kudu-tserver-1:

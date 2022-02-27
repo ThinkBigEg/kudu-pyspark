@@ -52,14 +52,21 @@ RUN	/opt/conda/envs/kudu/bin/pip install py4j && \
 ARG HADOOP_VERSION=hadoop-2.7.6
 ARG HADOOP_PREFIX=/usr/local/hadoop
 ARG HADOOP_CONF=${HADOOP_PREFIX}/etc/hadoop
-ARG HADOOP_ARCHIVE=${HADOOP_VERSION}.tar.gz
-ARG HADOOP_MIRROR_DOWNLOAD=http://archive.apache.org/dist/hadoop/core/$HADOOP_VERSION/$HADOOP_ARCHIVE
+ENV MY_HADOOP=hadoop-2.7.6
+ARG HADOOP_ARCHIVE=${MY_HADOOP}.tar.gz
+
+# ARG HADOOP_MIRROR_DOWNLOAD=http://archive.apache.org/dist/hadoop/core/$HADOOP_VERSION/$HADOOP_ARCHIVE
+# RUN echo ${HADOOP_MIRROR_DOWNLOAD}
+
+ARG HADOOP_MIRROR_DOWNLOAD=https://archive.apache.org/dist/hadoop/core/hadoop-2.7.6/hadoop-2.7.6.tar.gz
+
+
 ARG HADOOP_RES_DIR=/opt/workspace/hadoop
 RUN apt install -y openssh-server && \
 	mkdir /opt/workspace && \
 	curl ${CURL_OPTS} -o /opt/workspace/$HADOOP_ARCHIVE -O -L $HADOOP_MIRROR_DOWNLOAD && \
 	tar -xzf /opt/workspace/${HADOOP_ARCHIVE} -C /usr/local && \
-	ln -s /usr/local/$HADOOP_VERSION /usr/local/hadoop && \
+	ln -s /usr/local/$MY_HADOOP /usr/local/hadoop && \
 	mkdir /var/hadoop && \
 	mkdir /var/hadoop/hadoop-datanode && \
 	mkdir /var/hadoop/hadoop-namenode && \
