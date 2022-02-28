@@ -1,45 +1,113 @@
-version: "2"
+version: "3"
 
 services:
   kudu-master:
     container_name: kudu-master
-    image: kudu-python
+    mem_limit: 512m
+    mem_reservation: 128M
+    image: kudu-master
     ports:
       - 8051:8051
-    command: master
   kudu-tserver-1:
     container_name: kudu-tserver-1
-    image: kudu-python
+    mem_limit: 256m
+    mem_reservation: 64M
+    image: kudu-tserver
     depends_on:
       - kudu-master
     environment:
       - KUDU_MASTER=kudu-master
     ports:
       - 8052:8050
-    command: tserver
   kudu-tserver-2:
     container_name: kudu-tserver-2
-    image: kudu-python
+    mem_limit: 256m
+    mem_reservation: 64M
+    image: kudu-tserver
     depends_on:
       - kudu-master
     environment:
       - KUDU_MASTER=kudu-master
     ports:
       - 8055:8050
-    command: tserver
   kudu-tserver-3:
     container_name: kudu-tserver-3
-    image: kudu-python
+    mem_limit: 256m
+    mem_reservation: 64M
+    image: kudu-tserver
     depends_on:
       - kudu-master
     environment:
       - KUDU_MASTER=kudu-master
     ports:
       - 8056:8050
-    command: tserver
   kudu-client:
     container_name: kudu-client
-    image: kudu-python
-    command: /bin/bash
+    mem_limit: 1024M
+    mem_reservation: 256M
+    image: base-kudu
     ports:
       - 7777:7777
+  namenode:
+    image: namenode
+    mem_limit: 1024m
+    mem_reservation: 128M
+    container_name: namenode
+    ports:
+      - 9870:9870
+      - 9000:9000
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop.env
+  datanode:
+    image: datanode
+    mem_limit: 1024m
+    mem_reservation: 128M
+    container_name: datanode
+    restart: always
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop.env
+  resourcemanager:
+    image: resourcemanager
+    mem_limit: 1024m
+    mem_reservation: 128M
+    container_name: resourcemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+    env_file:
+      - ./hadoop.env
+  nodemanager1:
+    image: nodemanager
+    mem_limit: 1024m
+    mem_reservation: 128M
+    container_name: nodemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+  historyserver:
+    image: historyserver
+    mem_limit: 1024m
+    mem_reservation: 128M
+    container_name: historyserver
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    volumes:
+      - hadoop_historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop.env 
+
+volumes:
+  hadoop_namenode:
+  hadoop_datanode:
+  hadoop_historyserver:

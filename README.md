@@ -1,6 +1,4 @@
-#   Kudu-Pyspark using Docker by [![N|Solid](https://think-big.solutions/img/logo.png)](https://think-big.solutions)
-
-![logo](http://getkudu.io/img/logo.png) ![logo](https://www.docker.com/sites/default/files/social/docker_facebook_share.png) 
+#   Kudu-Pyspark using Docker
 
 ### NOTE: This image is for testing use not for production use
 
@@ -25,12 +23,21 @@ Kudu is a columnar storage manager developed for the Apache Hadoop platform. Kud
  ## Tutorial 
  ### Clone the repository
  ```sh
- git clone "https://github.com/ThinkBigEg/kudu-pyspark"
+ git clone "https://github.com/CrypticGuy/kudu-pyspark.git"
  cd kudu-pyspark
  ```
- ### Build the image
+ ### Build the images
  ```sh
- docker build . --tag kudu-python
+ docker build . -f base.Dockerfile -t base-kudu
+ docker build . -f kudu-master.Dockerfile -t kudu-master
+ docker build . -f kudu-tserver.Dockerfile -t kudu-tserver
+ docker build . -f kudu-client.Dockerfile -t kudu-client
+ docker build -f hadoop.Dockerfile -t hadoop .
+ docker build -f namenode.Dockerfile -t namenode .
+ docker build -f datanode.Dockerfile -t datanode .
+ docker build -f resource.Dockerfile -t resourcemanager .
+ docker build -f nodemanager.Dockerfile -t nodemanager .
+ docker build -f historyserver.Dockerfile -t historyserver .
  ```
  ### Build the containers
  ```sh
@@ -49,11 +56,12 @@ Kudu is a columnar storage manager developed for the Apache Hadoop platform. Kud
 
  ### Open the kudu-client container
  ```sh
- docker-compose run -p 7777:7777 kudu-client bash
+ docker-compose run -p 7777:7777 -p 4040:4040 -v myvol:/opt/spark/notebooks kudu-client bash
  ```
+ The above command maps a docker volume (you can read about it here: https://docs.docker.com/storage/volumes/) to the path "/opt/spark/notebooks" inside the docker virtual machine. So, any file or code you create inside /root folder will persist across sessions. Please note by default the bash opens in "/", but we are persisting the "/opt/spark/notebooks" folder.
  ### Open jupyter notebook
  ```sh
- ./spark/bin/pyspark --packages  org.apache.kudu:kudu-spark2_2.11:1.4.0
+ /spark/bin/pyspark --packages  org.apache.kudu:kudu-spark2_2.11:1.4.0
  ```
  Open on your browser http://0.0.0.0:7777 and enter the token appeared in the output of the command
  ```console
@@ -71,7 +79,7 @@ from kudu.client import Partitioning
 from datetime import datetime
 
 # Connect to Kudu master server
-client = kudu.connect(host='<Host of kudu-master>', port=7051)
+client = kudu.connect(host='<Host of kudu-master>', port=7051) # in our case kudu-master if you havent changed anything
 
 # Define a schema for a new table
 builder = kudu.schema_builder()
